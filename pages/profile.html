@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulse — Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    /* Profile-specific styles */
+    .profile-cover {
+      height: 160px;
+      background: linear-gradient(135deg, #009e84 0%, #4e6ef2 50%, #ff6b6b 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-cover img { width: 100%; height: 100%; object-fit: cover; }
+    .cover-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.2); }
+
+    .profile-info-area {
+      padding: 0 24px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .profile-avatar-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: -36px;
+      margin-bottom: 16px;
+    }
+
+    .profile-avatar-ring {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      border: 3px solid var(--bg);
+      overflow: hidden;
+      background: var(--surface-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .profile-avatar-ring img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-avatar-ring .avatar-fallback {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--pulse);
+      color: #000;
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .btn-edit-profile, .btn-follow-profile {
+      padding: 9px 22px;
+      border-radius: 20px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-edit-profile {
+      background: none;
+      border: 1px solid var(--border-hover);
+      color: var(--text);
+    }
+    .btn-edit-profile:hover { border-color: var(--pulse); color: var(--pulse); }
+
+    .btn-follow-profile {
+      background: var(--text);
+      border: 1px solid var(--text);
+      color: var(--bg);
+      font-weight: 700;
+    }
+    .btn-follow-profile:hover { opacity: 0.85; }
+    .btn-follow-profile.following { background: none; border-color: var(--border-hover); color: var(--text); }
+    .btn-follow-profile.following:hover { border-color: var(--error); color: var(--error); }
+
+    .profile-display-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .profile-handle { font-size: 14px; color: var(--text-muted); margin-top: 2px; }
+    .profile-bio { font-size: 15px; margin-top: 12px; line-height: 1.6; max-width: 480px; }
+    .profile-meta { display: flex; gap: 20px; margin-top: 12px; flex-wrap: wrap; }
+    .profile-meta-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); }
+    .profile-meta-item a { color: var(--pulse); }
+
+    .profile-stats { display: flex; gap: 24px; margin-top: 14px; }
+    .profile-stat { font-size: 14px; cursor: pointer; }
+    .profile-stat strong { font-weight: 700; margin-right: 4px; }
+    .profile-stat:hover { color: var(--pulse); }
+
+    /* Profile tab bar */
+    .profile-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+    .profile-tab {
+      flex: 1;
+      padding: 16px;
+      text-align: center;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all var(--transition);
+    }
+    .profile-tab.active { color: var(--text); border-bottom-color: var(--pulse); }
+    .profile-tab:hover { color: var(--text); background: rgba(255,255,255,0.02); }
+
+    /* Edit modal */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInModal 0.2s ease;
+    }
+    @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) * 1.5);
+      width: 90%;
+      max-width: 520px;
+      max-height: 85vh;
+      overflow-y: auto;
+      animation: slideUpModal 0.25s ease;
+    }
+    @keyframes slideUpModal { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; }
+    .modal-close { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 20px; }
+    .modal-close:hover { color: var(--error); }
+    .modal-body { padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+
+    .modal-field { display: flex; flex-direction: column; gap: 7px; }
+    .modal-field label { font-size: 13px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .modal-field input, .modal-field textarea {
+      padding: 12px 14px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      transition: border-color var(--transition);
+      resize: vertical;
+    }
+    .modal-field input:focus, .modal-field textarea:focus { border-color: var(--pulse); }
+    .modal-footer { padding: 0 24px 24px; display: flex; justify-content: flex-end; gap: 12px; }
+    .btn-cancel { padding: 10px 20px; background: none; border: 1px solid var(--border); border-radius: 10px; color: var(--text-muted); cursor: pointer; font-family: var(--font-body); }
+    .btn-save { padding: 10px 24px; background: var(--pulse); border: none; border-radius: 10px; color: #000; font-family: var(--font-display); font-weight: 700; cursor: pointer; }
+    .btn-save:hover { background: #00e0bb; }
+  </style>
+</head>
+<body>
+
+<div class="app-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a class="sidebar-logo" href="feed.html">
+      <div class="logo-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 14 Q6 4 12 12 Q18 20 21 8" stroke="#000" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <span class="logo-text">Pulse</span>
+    </a>
+    <nav class="sidebar-nav">
+      <a class="nav-item" href="feed.html">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Home</span>
+      </a>
+      <a class="nav-item" href="explore.html">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Explore</span>
+      </a>
+      <a class="nav-item" href="notifications.html">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span>Notifications</span>
+      </a>
+      <a class="nav-item active" id="nav-profile" href="#">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Profile</span>
+      </a>
+    </nav>
+    <button class="btn-compose" onclick="window.location.href='feed.html'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      New Pulse
+    </button>
+    <a class="sidebar-user" id="sidebar-user" href="#">
+      <div id="sidebar-avatar"></div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name" id="sidebar-name">...</div>
+        <div class="sidebar-user-handle" id="sidebar-handle"></div>
+      </div>
+      <button class="sidebar-logout" onclick="logout(); event.stopPropagation();" title="Log out">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
+    </a>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-col">
+    <header class="main-header">
+      <button onclick="history.back()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-right:12px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      </button>
+      <div>
+        <h1 id="header-name">Profile</h1>
+        <div style="font-size:12px;color:var(--text-muted)" id="header-posts"></div>
+      </div>
+    </header>
+
+    <!-- Profile Header -->
+    <div id="profile-header">
+      <div class="loading-state"><div class="spinner"></div></div>
+    </div>
+
+    <!-- Profile Tabs -->
+    <div class="profile-tabs" id="profile-tabs" style="display:none">
+      <button class="profile-tab active" onclick="switchProfileTab('posts', this)">Posts</button>
+      <button class="profile-tab" onclick="switchProfileTab('followers', this)">Followers</button>
+      <button class="profile-tab" onclick="switchProfileTab('following', this)">Following</button>
+    </div>
+
+    <!-- Profile Content -->
+    <div id="profile-content">
+      <div class="loading-state"><div class="spinner"></div></div>
+    </div>
+  </main>
+
+  <aside class="right-aside">
+    <div class="aside-widget" id="right-suggestions" style="margin-top:20px">
+      <div class="widget-title">Suggested for You</div>
+      <div id="right-suggestions-list"><div class="loading-state" style="padding:12px 0"><div class="spinner"></div></div></div>
+    </div>
+  </aside>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal-overlay" id="edit-modal" style="display:none" onclick="if(event.target===this)closeEditModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Edit Profile</span>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label>Display Name</label>
+        <input type="text" id="edit-display-name" maxlength="50" />
+      </div>
+      <div class="modal-field">
+        <label>Bio</label>
+        <textarea id="edit-bio" rows="3" maxlength="160" placeholder="Tell the world about yourself..."></textarea>
+      </div>
+      <div class="modal-field">
+        <label>Location</label>
+        <input type="text" id="edit-location" maxlength="80" placeholder="City, Country" />
+      </div>
+      <div class="modal-field">
+        <label>Website</label>
+        <input type="url" id="edit-website" placeholder="https://yoursite.com" />
+      </div>
+      <div class="modal-field">
+        <label>Avatar URL</label>
+        <input type="url" id="edit-avatar" placeholder="https://i.pravatar.cc/150?img=1" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+      <button class="btn-save" onclick="saveProfile()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/profile.js"></script>
+</body>
+</html>

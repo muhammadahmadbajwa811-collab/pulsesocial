@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Pulse — Notifications</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/app.css"/>
+  <style>
+    .notif-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background var(--trans);
+      animation: fadeUp 0.25s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    @media(min-width:600px){ .notif-item{ padding: 15px 24px; gap: 14px; } }
+    .notif-item:hover  { background: rgba(255,255,255,0.02); }
+    .notif-item.unread { background: rgba(0,201,167,0.04); }
+
+    .notif-icon {
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 3px;
+    }
+    .notif-icon.like    { background: rgba(255,92,122,0.14); color: #ff5c7a; }
+    .notif-icon.follow  { background: rgba(0,201,167,0.14);  color: var(--pulse); }
+    .notif-icon.comment { background: rgba(78,110,242,0.14); color: #4e6ef2; }
+
+    .notif-body  { flex: 1; min-width: 0; }
+    .notif-text  { font-size: 14px; line-height: 1.5; }
+    .notif-text strong { font-weight: 700; }
+    .notif-time  { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .notif-dot   { width: 8px; height: 8px; border-radius: 50%; background: var(--pulse); flex-shrink: 0; margin-top: 7px; }
+
+    .btn-mark-read {
+      padding: 7px 16px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: none; color: var(--muted);
+      font-family: var(--ff-body); font-size: 13px;
+      cursor: pointer; transition: all var(--trans);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-mark-read:hover { border-color: var(--pulse); color: var(--pulse); }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- Mobile top bar -->
+  <header class="mobile-topbar">
+    <div class="topbar-logo" style="font-family:var(--ff-display);font-weight:800;font-size:18px">Notifications</div>
+    <div class="topbar-right">
+      <button class="btn-mark-read" id="mob-mark-read" onclick="markAllRead()" style="display:none">Read all</button>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="sidebar"></aside>
+
+  <!-- Main -->
+  <main class="main-col">
+    <div class="main-header">
+      <h1>Notifications</h1>
+      <button class="btn-mark-read" id="desk-mark-read" onclick="markAllRead()" style="display:none">Mark all read</button>
+    </div>
+    <div id="notif-list">
+      <div class="loading-state"><div class="spin"></div><p>Loading…</p></div>
+    </div>
+  </main>
+
+  <!-- Right aside -->
+  <aside class="right-aside">
+    <div class="aside-card">
+      <div class="aside-title">Suggested for You</div>
+      <div id="aside-suggestions-list">
+        <div class="loading-state" style="padding:16px 0"><div class="spin"></div></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav"></nav>
+
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/notifications.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulse — Post</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/app.css" />
+</head>
+<body>
+<div class="app-layout">
+  <nav class="sidebar">
+    <div class="sidebar-brand"><span class="logo">🌊</span><h1>Pulse</h1></div>
+    <a class="nav-link" data-page="feed" href="feed.html"><span class="icon">🏠</span> Home</a>
+    <a class="nav-link" data-page="explore" href="explore.html"><span class="icon">🔍</span> Explore</a>
+    <a class="nav-link" data-page="notifications" href="notifications.html">
+      <span class="icon">🔔</span> Notifications
+      <span class="notif-badge" style="display:none"></span>
+    </a>
+    <a class="nav-link" data-page="profile" id="nav-profile" href="#"><span class="icon">👤</span> Profile</a>
+    <button class="btn-new-post" onclick="location.href='feed.html'">✨ New Pulse</button>
+    <div class="sidebar-user" id="sidebar-user">
+      <img id="sidebar-avatar" src="" alt="avatar" />
+      <div class="sidebar-user-info">
+        <strong id="sidebar-display-name"></strong>
+        <span id="sidebar-username"></span>
+      </div>
+      <button class="logout-btn" id="logout-btn" title="Log out">↩</button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="page-header">
+      <button onclick="history.back()" style="background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;margin-right:8px">←</button>
+      <h2>Post</h2>
+    </div>
+
+    <!-- Post + Comments -->
+    <div id="post-container">
+      <div class="loader"><div class="spinner"></div>Loading post...</div>
+    </div>
+
+    <!-- Reply box -->
+    <div id="reply-box" style="display:none;padding:16px 20px;border-top:1px solid var(--border);position:sticky;bottom:0;background:rgba(10,14,26,0.95);backdrop-filter:blur(12px)">
+      <div style="display:flex;gap:10px;align-items:flex-end">
+        <img id="reply-avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0" />
+        <textarea id="reply-text" placeholder="Post your reply..." rows="1"
+          style="flex:1;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:10px 14px;color:var(--text);font-family:Inter,sans-serif;font-size:0.9rem;resize:none;outline:none;line-height:1.5;max-height:120px;overflow-y:auto"
+          oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+        <button id="reply-btn" class="btn-post" style="flex-shrink:0">Reply</button>
+      </div>
+    </div>
+  </main>
+
+  <aside class="right-sidebar">
+    <div class="right-widget">
+      <h3>💡 Did you know?</h3>
+      <p style="font-size:0.85rem;color:var(--muted);line-height:1.6">You can click on any username to visit their profile and see all their posts!</p>
+    </div>
+  </aside>
+</div>
+
+<nav class="mobile-nav">
+  <button class="mob-btn" onclick="location.href='feed.html'"><span>🏠</span><span class="label">Home</span></button>
+  <button class="mob-btn" onclick="location.href='explore.html'"><span>🔍</span><span class="label">Explore</span></button>
+  <button class="mob-btn" onclick="location.href='notifications.html'"><span>🔔</span><span class="label">Alerts</span></button>
+  <button class="mob-btn" id="mob-profile-btn"><span>👤</span><span class="label">Profile</span></button>
+</nav>
+
+<script src="../js/api.js"></script>
+<script src="../js/post.js"></script>
+</body>
+</html>

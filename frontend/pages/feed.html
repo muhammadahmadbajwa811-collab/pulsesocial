@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Pulse — Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/app.css"/>
+  <style>
+    /* Media upload button in compose box */
+    .compose-media-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: none; border: none;
+      color: var(--pulse); cursor: pointer;
+      font-family: var(--ff-body); font-size: 13px; font-weight: 600;
+      padding: 6px 10px; border-radius: 20px;
+      transition: background var(--trans);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .compose-media-btn:hover { background: var(--pulse-dim); }
+    #media-input { display: none; }
+    #media-preview { width: 100%; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- Mobile top bar -->
+  <header class="mobile-topbar">
+    <div class="topbar-logo">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 28 28" fill="none">
+          <path d="M4 18 Q8 4 14 14 Q20 24 24 10" stroke="white" stroke-width="3" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+      Pulse
+    </div>
+    <div class="topbar-right"></div>
+  </header>
+
+  <!-- Sidebar (filled by JS) -->
+  <aside class="sidebar"></aside>
+
+  <!-- Main column -->
+  <main class="main-col">
+    <!-- Desktop header -->
+    <div class="main-header">
+      <h1>Home</h1>
+      <div class="feed-tabs" style="border:none;margin-left:auto">
+        <button class="feed-tab active" onclick="switchFeedTab('feed',this)">For You</button>
+        <button class="feed-tab" onclick="switchFeedTab('explore',this)">Explore</button>
+      </div>
+    </div>
+
+    <!-- Mobile feed tabs -->
+    <div class="feed-tabs">
+      <button class="feed-tab active" onclick="switchFeedTab('feed',this)">For You</button>
+      <button class="feed-tab" onclick="switchFeedTab('explore',this)">Explore</button>
+    </div>
+
+    <!-- ── Compose box ─────────────────────── -->
+    <div class="compose-box" id="compose-box">
+      <div id="compose-avatar"></div>
+      <div class="compose-body">
+        <textarea
+          class="compose-textarea"
+          id="compose-text"
+          placeholder="What's pulsing through your mind?"
+          maxlength="500"
+          rows="3"
+        ></textarea>
+
+        <!-- Media preview (image/video shows here after selecting) -->
+        <div id="media-preview"></div>
+
+        <div class="compose-footer">
+          <!-- Left: media attach button + char count -->
+          <div style="display:flex;align-items:center;gap:8px">
+            <!-- Hidden file input -->
+            <input
+              type="file"
+              id="media-input"
+              accept="image/jpeg,image/png,image/gif,image/webp,video/mp4,video/webm,video/ogg,video/quicktime"
+              onchange="handleMediaSelect(this)"
+            />
+            <!-- Button that triggers the hidden input -->
+            <button
+              class="compose-media-btn"
+              onclick="document.getElementById('media-input').click()"
+              title="Attach image or video"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              Photo/Video
+            </button>
+            <span class="compose-count" id="char-count">500</span>
+          </div>
+
+          <button class="btn-post" id="btn-post" onclick="submitPost()" disabled>
+            Pulse it
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feed posts appear here -->
+    <div id="feed-container">
+      <div class="loading-state">
+        <div class="spin"></div>
+        <p>Loading your feed…</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Right aside (desktop) -->
+  <aside class="right-aside">
+    <div class="search-bar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" placeholder="Search people…" oninput="handleSearch(this.value)"/>
+    </div>
+    <div class="aside-card" id="search-card" style="display:none">
+      <div class="aside-title">Results</div>
+      <div id="search-results-list"></div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-title">Who to follow</div>
+      <div id="aside-suggestions-list">
+        <div class="loading-state" style="padding:16px 0"><div class="spin"></div></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Mobile bottom nav (filled by JS) -->
+  <nav class="bottom-nav"></nav>
+
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/feed.js"></script>
+</body>
+</html>

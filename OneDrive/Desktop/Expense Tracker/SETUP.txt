@@ -1,0 +1,20 @@
+# Expense Tracker — setup (free)
+
+## 1. Supabase (free)
+1. Create an account at https://supabase.com
+2. Create a new project
+3. Open SQL Editor → paste and run `supabase/schema.sql`
+4. Project Settings → API → copy **Project URL** and **anon public** key
+5. Auth → Providers → Email: enable Email. For easiest testing, turn OFF "Confirm email"
+
+## 2. App env
+1. Copy `.env.example` to `.env`
+2. Paste your URL and anon key
+
+## 3. Run on your phone
+1. Install **Expo Go** from the App Store or Play Store
+2. In this folder run: `npm start`
+3. Scan the QR code with Expo Go (Android) or Camera (iPhone)
+
+Security: Row Level Security in `schema.sql` ensures each user only reads/writes their own expenses.
+Sessions are stored with Expo SecureStore (chunked). Only the public anon key is in the app; never put the service_role key in the app.

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Registration Form</title>
+    </head>
+    <body>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="shoppinglist.html">Shopping List</a>
+        </nav>
+        <h2>Registration Form</h2>
+        <form action="#" method="POST">
+            <p>
+                <label for="name">Enter Your Name:</label>
+                <input type="text" id="name">
+            </p>
+            <p>
+                <h4>Select Gender</h4>
+                <label for="male">Male</label>
+                <input type="radio" id="male" name="gender" value="male">
+                <label for="female">Female</label>
+                <input type="radio" id="female" name="gender" value="female">
+            </p>
+            <p>
+                <label for="userID">Enter username:</label>
+                <input type="text" id="userID">
+            </p>
+            <p>
+                <label for="password">Enter Password:</label>
+                <input type="password" id="password">
+            </p>
+            <p>
+                <label for="email">Enter Email:</label>
+                <input type="email" id="email">
+            </p>
+            <p>
+                <label for="address">Enter your address:</label>
+                <textarea id="address" name="address" rows="5" cols="30"></textarea>
+            </p>
+            <p>
+                <label for="ele">Electronics</label>
+                <input type="checkbox" id="ele" name="electronics" value="electronics">
+                <label for="fashion">Fashion</label>
+                <input type="checkbox" id="fashion" name="fashion" value="fashion">
+                <label for="books">Books</label>
+                <input type="checkbox" id="books" name="books" value="books">
+            </p>
+            <p>
+                <label for="category">Select your category:</label>
+                <select id="category" name="category">
+                    <option value="premium">Premium</option>
+                    <option value="standard">Standard</option>
+                </select>
+            </p>
+            <p>
+                <input type="submit" value="Submit">
+            </p>
+        </form>
+        <footer>&copy; All rights reserved.</footer>
+    </body>
+</html>

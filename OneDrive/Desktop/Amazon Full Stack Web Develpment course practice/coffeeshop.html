@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Coffee Shop</title>
+        <style>
+             body {
+                color: #4d3e38;
+                background-color: #f5f0e1;
+                font-family:Arial, sans-serif;
+                margin:0;
+                padding:0;
+                display:flex;
+                flex-direction:column;
+                min-height:100vh;
+             }
+             header h1{
+                text-align:center;
+                color:#4d3e38;
+                font-size:2.5em;
+                margin-top:20px;
+                font-family:'Georgia', serif;
+             }
+             .sidebar {
+                color:#0e4909;
+                background-color:#fafdfb;
+                background-image: url('images/international-coffee-day-coffee-wallpaper-coffee-background_951562-77901.avif');
+                background-size:cover ;
+                background-position:center;
+                padding:15px;
+                margin:20px;
+             }
+             .sidebar h2{
+                margin-top:0;
+             }
+             .sidebar ul{
+                list-style-type: disc;
+                padding-left:20px;
+             }
+             .sidebar li{
+                margin-bottom:5px;
+             }
+             .welcome-section{
+                background-color:#f5f0e1;
+                color:#4d3e38;
+                padding:20px;
+                text-align:center;
+             }
+             .welcome-section p::first-letter{
+                font-size:2em;
+                color:#4d3e38
+             }
+             .promo-banner{
+                color:#bd1111;
+                padding:20px;
+                text-align:center;;
+             }
+             .footer {
+                background-color:#2e5d3f;
+                color:#ffffff;
+                padding:10px;
+                text-align:center;
+                position:fixed;
+                bottom:0;
+                width:100%;
+             }
+             .footer p::firstletter{
+                font-size:1.5em;
+                color:#f5f0e1;
+             }
+
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>The Daily Grind</h1>
+        </header>
+        <section class="welcome-section">
+            <p>Welcome to the Daily Grind! Start your day with the best coffee in town.</p>
+        </section>
+
+        <section class="promo-banner">
+            <p>Enjoy 20% off on all brews today!</p>
+        </section>
+
+        <aside class="sidebar">
+            <h2>Today's Specials</h2>
+            
+            <ul>
+                <li>Espresso Shot - $1</li>
+                <li>Americano - $1.5</li>
+                <li>Latte - $2</li>
+                <li>Cappuccino - $2.5</li>
+                <li>Mocha - $3</li>
+            </ul>
+            
+        </aside>
+
+        <footer class="footer">
+            <p>&copy; 2026 The Daily Grind. All rights reserved.</p>
+        </footer>
+    </body>
+</html>

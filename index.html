@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Pulse — Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+</head>
+<body>
+
+  <!-- Animated background blobs -->
+  <div class="blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="auth-wrap">
+
+    <!-- LEFT — Branding (hidden on mobile) -->
+    <div class="brand-side">
+      <div class="brand-logo">
+        <div class="brand-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M4 18 Q8 4 14 14 Q20 24 24 10" stroke="white" stroke-width="3" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <span>Pulse</span>
+      </div>
+      <div class="brand-copy">
+        <h1>Where ideas<br/><em>pulse</em> to life.</h1>
+        <p>A social platform for creators, thinkers, and people who have something real to say.</p>
+      </div>
+      <div class="brand-stats">
+        <div class="stat-item"><strong>4</strong><span>demo users</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><strong>6</strong><span>sample posts</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><strong>∞</strong><span>possibilities</span></div>
+      </div>
+    </div>
+
+    <!-- RIGHT — Form -->
+    <div class="form-side">
+
+      <!-- Mobile logo (only shows on small screens) -->
+      <div class="mobile-logo">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+            <path d="M4 18 Q8 4 14 14 Q20 24 24 10" stroke="white" stroke-width="3" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <span>Pulse</span>
+      </div>
+
+      <div class="form-card">
+
+        <!-- Tab switcher -->
+        <div class="tab-row">
+          <button class="tab-btn active" data-tab="login">Sign In</button>
+          <button class="tab-btn" data-tab="register">Create Account</button>
+        </div>
+
+        <!-- Alert box -->
+        <div class="alert" id="alert" style="display:none"></div>
+
+        <!-- LOGIN FORM -->
+        <form id="form-login" class="auth-form">
+          <div class="field">
+            <label for="login-id">Username or Email</label>
+            <input type="text" id="login-id" placeholder="alex_wave" autocomplete="username" />
+          </div>
+          <div class="field">
+            <label for="login-pw">Password</label>
+            <div class="pw-wrap">
+              <input type="password" id="login-pw" placeholder="••••••••" autocomplete="current-password" />
+              <button type="button" class="pw-toggle" onclick="togglePw('login-pw',this)">Show</button>
+            </div>
+          </div>
+          <button type="submit" class="btn-submit" id="btn-login">
+            <span class="btn-text">Sign In</span>
+            <span class="btn-spin" style="display:none"><div class="spinner"></div></span>
+          </button>
+          <p class="demo-note">Try: <strong>alex_wave</strong> / <strong>password123</strong></p>
+        </form>
+
+        <!-- REGISTER FORM -->
+        <form id="form-register" class="auth-form" style="display:none">
+          <div class="field-row">
+            <div class="field">
+              <label for="reg-name">Display Name</label>
+              <input type="text" id="reg-name" placeholder="Alex Wave" />
+            </div>
+            <div class="field">
+              <label for="reg-user">Username</label>
+              <input type="text" id="reg-user" placeholder="alex_wave" autocomplete="username" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="reg-email">Email</label>
+            <input type="email" id="reg-email" placeholder="alex@example.com" autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="reg-pw">Password <span class="label-hint">min 6 characters</span></label>
+            <div class="pw-wrap">
+              <input type="password" id="reg-pw" placeholder="Create a strong password" autocomplete="new-password" />
+              <button type="button" class="pw-toggle" onclick="togglePw('reg-pw',this)">Show</button>
+            </div>
+          </div>
+          <button type="submit" class="btn-submit" id="btn-register">
+            <span class="btn-text">Create Account</span>
+            <span class="btn-spin" style="display:none"><div class="spinner"></div></span>
+          </button>
+        </form>
+
+      </div><!-- /form-card -->
+    </div><!-- /form-side -->
+  </div><!-- /auth-wrap -->
+
+  <script src="js/auth.js"></script>
+</body>
+</html>
